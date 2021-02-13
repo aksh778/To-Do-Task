@@ -1,0 +1,46 @@
+<form autocomplete="off" class="example-form" [formGroup]="taskListForm" name="taskListForm">
+  <h1>TO-DO Task</h1>
+  <mat-form-field class="example-full-width">
+    <mat-label>Task Name</mat-label>
+    <input matInput formControlName="taskName" name="taskName" novalidate>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Task Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="taskDate" name="taskDate" value="taskDate" novalidate>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" name="status">
+      <mat-option value="Active">Active</mat-option>
+      <mat-option value="Inactive">Inactive</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="example-button-row">
+     <button *ngIf="!isEditTask" mat-raised-button color="primary" (click)="addTask(taskListForm.value)">Add
+       Task</button>
+     <button *ngIf="isEditTask"  mat-raised-button color="primary" (click)="updateTask(taskListForm.value)">Update</button>
+  </div>
+</form>
+<div *ngIf="taskArray.length && !isEditTask" class="table-container">
+  <table class="table">
+    <tr>
+      <th>Task Name</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th colspan="2">Action</th>
+    </tr>
+    <tr *ngFor="let task of taskArray; let i = index">
+      <td>{{task.taskName}}</td>
+      <td>{{task.taskDate}}</td>
+      <td>{{task.status}}</td>
+      <td>
+        <img src="./../../assets/edit-icon.svg" alt="edit-icon" class="delete-icon" (click)="onEdit(task, i)">
+      </td>
+      <td>
+        <img src="./../../assets/delete-icon.svg" alt="delete-icon" class="delete-icon" (click)="onDeleteTask(i)">
+      </td>
+    </tr>
+  </table>
+</div>
